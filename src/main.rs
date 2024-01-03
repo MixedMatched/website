@@ -3,7 +3,7 @@ mod markdown;
 
 use crate::post::{Blog, PostList, Post};
 
-use dioxus::{prelude::*, html::footer};
+use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use dioxus_fullstack::prelude::*;
 
@@ -16,9 +16,6 @@ fn App(cx: Scope) -> Element {
     cx.render(rsx! {
         div {
             class: "flex flex-col min-h-screen bg-gray-100 dark:bg-slate-900 dark:text-white",
-            script {
-                "hljs.highlightAll();"
-            }
             div {
                 class: "flex-grow container mx-auto px-4 dark:text-white",
                 Router::<Route> {}

@@ -83,6 +83,9 @@ pub fn Post(cx: Scope, id: String) -> Element {
     cx.render(rsx! {
         div {
             class: "bg-white pattern-light dark:text-white dark:bg-slate-800 p-8",
+            script {
+                "hljs.highlightAll();"
+            }
             h1 {
                 class: "text-4xl dark:text-white font-bold mb-2",
                 post.meta.title
