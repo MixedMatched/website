@@ -40,6 +40,10 @@ pub fn Markdown(cx: Scope<MarkdownProps>) -> Element {
         .replace("<th>", "<th class=\"bg-gray-300 dark:bg-gray-900\">")
         .replace("<td>", "<th class=\"bg-gray-100 dark:bg-gray-700\">");
 
+    // add tailwind to links
+    let html_output = html_output
+        .replace("<a ", "<a class=\"text-blue-400 dark:text-orange-600\" ");
+
     cx.render(rsx! {
         div {
             dangerous_inner_html: "{html_output}"

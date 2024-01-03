@@ -29,12 +29,12 @@ const POST_LIST: &[Post] = &[
             title: "Post 1",
             author: "Author 1",
             published: date!(2021 - 01 - 01),
-            category: None,
+            category: Some("Garbage"),
             series: None,
             part: None,
             description: None,
         },
-        content: include_str!("../public/post-1.md"),
+        content: include_str!("../assets/post-1.md"),
     },
     Post {
         id: "post-2",
@@ -45,9 +45,9 @@ const POST_LIST: &[Post] = &[
             category: None,
             series: None,
             part: None,
-            description: None,
+            description: Some("This is the second test post"),
         },
-        content: include_str!("../public/post-2.md"),
+        content: include_str!("../assets/post-2.md"),
     },
 ];
 
@@ -64,21 +64,47 @@ pub fn PostList(cx: Scope) -> Element {
         div {
             class: "bg-gray-200 dark:bg-gray-800 p-8",
             h1 {
-                class: "text-3xl dark:text-white font-bold mb-2",
+                class: "text-3xl dark:text-white font-bold mb-4",
                 "Blog"
             }
             for post in POST_LIST {
                 p {
                     class: "dark:text-white mb-4 bg-gray-300 dark:bg-gray-700 p-4",
                     p {
-                        class: "text-xl dark:text-white mb-4",
-                        Link { to: Route::Post { id: post.id.to_string() }, post.meta.title }
+                        class: "text-xl text-blue-400 dark:text-orange-600",
+                        Link { 
+                            to: Route::Post { id: post.id.to_string() },
+                            u {
+                                post.meta.title
+                            }
+                        }
                     }
                     p {
+                        class: if post.meta.description.is_some() {
+                            "mb-4"
+                        } else {
+                            ""
+                        },
                         "{post.meta.published} • "
                         "{post.meta.author}"
-                        if let Some(category) = post.meta.category {
-                            " • {category}"
+                        if let Some(cat) = post.meta.category {
+                            rsx! {
+                                " • "
+                                cat
+                            }
+                        }
+                    }
+                    if let Some(desc) = post.meta.description {
+                        rsx! {
+                            desc
+                            " "
+                            Link {
+                                class: "text-blue-400 dark:text-orange-600",
+                                to: Route::Post { id: post.id.to_string() },
+                                u {
+                                    ">>"
+                                },
+                            }
                         }
                     }
                 }
@@ -109,7 +135,10 @@ pub fn Post(cx: Scope, id: String) -> Element {
                 "{post.meta.published} • "
                 "{post.meta.author}"
                 if let Some(category) = post.meta.category {
-                    " • {category}"
+                    rsx! {
+                        " • "
+                        category
+                    }
                 }
             }
             p {
