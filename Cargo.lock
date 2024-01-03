@@ -2851,6 +2851,7 @@ dependencies = [
  "dioxus",
  "dioxus-fullstack",
  "dioxus-router",
+ "form_urlencoded",
  "pulldown-cmark",
  "time",
 ]

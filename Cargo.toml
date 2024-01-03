@@ -9,6 +9,7 @@ edition = "2021"
 dioxus = "0.4.3"
 dioxus-fullstack = "0.4.3"
 dioxus-router = "0.4.3"
+form_urlencoded = "1.2.1"
 pulldown-cmark = "0.9.3"
 time = { version = "0.3.31", features = ["macros"] }
 

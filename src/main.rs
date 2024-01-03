@@ -1,11 +1,12 @@
 mod post;
 mod markdown;
 
-use crate::post::{Blog, PostList, Post};
+use crate::post::{Blog, PostList, Post, PostQuery};
 
 use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use dioxus_fullstack::prelude::*;
+use post::PostQuerySegments;
 
 fn main() {
     LaunchBuilder::new(App).launch();
@@ -43,6 +44,10 @@ enum Route {
             PostList {},
             #[route("/:id")]
             Post { id: String },
+            #[end_layout]
+        #[end_nest]
+        #[route("/search/?:query_params")]
+        PostQuery { query_params: PostQuerySegments },
 }
 
 #[component]
