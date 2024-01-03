@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('robotomono-variablefont_wght-webfont.woff2') format('woff2'),
+         url('robotomono-variablefont_wght-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Roboto';
+    src: url('roboto-regular-webfont.woff2') format('woff2'),
+         url('roboto-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+pre {
+    padding: 16px;
+    overflow: auto;
+}
+code {
+    font-family: 'Roboto Mono', monospace, sans-serif;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.pattern_light {
+    background: no-repeat url('tile.png') 0 0;
+    background-repeat: repeat;
+}
