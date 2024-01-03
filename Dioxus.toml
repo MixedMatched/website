@@ -9,20 +9,11 @@ style = ["/tailwind.css", "/style.css", "/hljs/styles/atom-one-dark.css"]
 script = ["/hljs/highlight.min.js", "/riscvasm.min.js"]
 
 [web.app]
-
-# HTML title tag content
-title = "{{project-name}}"
+title = "Alessandra Simmons"
 
 [web.watcher]
-
-# when watcher trigger, regenerate the `index.html`
 reload_html = true
-
-# which files or dirs will be watcher monitoring
 watch_path = ["src", "public"]
 
 [web.resource.dev]
-
-# Javascript code file
-# serve: [dev-server] only
 script = []

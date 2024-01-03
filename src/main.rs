@@ -15,13 +15,13 @@ fn main() {
 fn App(cx: Scope) -> Element {
     cx.render(rsx! {
         div {
-            class: "flex flex-col min-h-screen bg-gray-100 dark:bg-slate-900 dark:text-white",
+            class: "flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 dark:text-white",
             div {
                 class: "flex-grow container mx-auto px-4 dark:text-white",
                 Router::<Route> {}
             }
             footer {
-                class: "bg-gray-100 dark:bg-slate-900 p-8",
+                class: "bg-gray-100 dark:bg-gray-900 p-8",
             }
         }
     })

@@ -6,10 +6,10 @@ I can also add [links](https://en.wikipedia.org/wiki/RSS).
 
 I can also add tables:
 
-| Name | Age |
-| ---- | --- |
-| John | 20  |
-| Jane | 19  |
+| Name | Age | Birthday |
+| ---- | --- | -------- |
+| John | 20  | 1/1/2000 |
+| Jane | 19  | 1/1/2001 |
 
 I can also add code:
 

@@ -1,5 +1,6 @@
 use dioxus::prelude::*;
 use dioxus_router::prelude::*;
+use time::macros::date;
 
 use crate::{Route, markdown::Markdown};
 
@@ -7,8 +8,11 @@ use crate::{Route, markdown::Markdown};
 struct PostMetaData {
     title: &'static str,
     author: &'static str,
-    series: Option<String>,
+    published: time::Date,
+    category: Option<&'static str>,
+    series: Option<&'static str>,
     part: Option<u32>,
+    description: Option<&'static str>,
 }
 
 struct Post {
@@ -24,8 +28,11 @@ const POST_LIST: &[Post] = &[
         meta: PostMetaData {
             title: "Post 1",
             author: "Author 1",
+            published: date!(2021 - 01 - 01),
+            category: None,
             series: None,
             part: None,
+            description: None,
         },
         content: include_str!("../public/post-1.md"),
     },
@@ -34,8 +41,11 @@ const POST_LIST: &[Post] = &[
         meta: PostMetaData {
             title: "Post 2",
             author: "Author 2",
+            published: date!(2021 - 01 - 02),
+            category: None,
             series: None,
             part: None,
+            description: None,
         },
         content: include_str!("../public/post-2.md"),
     },
@@ -52,20 +62,24 @@ pub fn Blog(cx: Scope) -> Element {
 pub fn PostList(cx: Scope) -> Element {
     cx.render(rsx! {
         div {
-            class: "bg-gray-200 dark:bg-slate-800 p-8",
+            class: "bg-gray-200 dark:bg-gray-800 p-8",
             h1 {
                 class: "text-3xl dark:text-white font-bold mb-2",
                 "Blog"
             }
             for post in POST_LIST {
                 p {
-                    class: "dark:text-white mb-4 bg-gray-300 dark:bg-slate-700 p-4",
+                    class: "dark:text-white mb-4 bg-gray-300 dark:bg-gray-700 p-4",
                     p {
                         class: "text-xl dark:text-white mb-4",
                         Link { to: Route::Post { id: post.id.to_string() }, post.meta.title }
                     }
                     p {
-                        "by {post.meta.author}"
+                        "{post.meta.published} • "
+                        "{post.meta.author}"
+                        if let Some(category) = post.meta.category {
+                            " • {category}"
+                        }
                     }
                 }
             }
@@ -82,7 +96,7 @@ pub fn Post(cx: Scope, id: String) -> Element {
 
     cx.render(rsx! {
         div {
-            class: "bg-white pattern-light dark:text-white dark:bg-slate-800 p-8",
+            class: "bg-white pattern-light dark:text-white dark:bg-gray-800 p-8",
             script {
                 "hljs.highlightAll();"
             }
@@ -91,8 +105,12 @@ pub fn Post(cx: Scope, id: String) -> Element {
                 post.meta.title
             }
             p {
-                class: "text-xl dark:text-white mb-4",
-                "by {post.meta.author}"
+                class: "dark:text-white mb-4",
+                "{post.meta.published} • "
+                "{post.meta.author}"
+                if let Some(category) = post.meta.category {
+                    " • {category}"
+                }
             }
             p {
                 class: "mb-4 dark:text-white",

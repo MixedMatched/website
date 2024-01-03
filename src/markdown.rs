@@ -20,7 +20,7 @@ pub fn Markdown(cx: Scope<MarkdownProps>) -> Element {
     // add tailwind class to p and table
     let html_output = html_output
         .replace("<p>", "<p class=\"mb-4 dark:text-white\">")
-        .replace("<table>", "<table class=\"mb-4 slate-400 dark:text-white dark:slate-800\">");
+        .replace("<table>", "<table class=\"mb-4 gray-400 dark:text-white dark:gray-800\">");
 
     // add tailwind class to h<4-n>
     let html_output = html_output

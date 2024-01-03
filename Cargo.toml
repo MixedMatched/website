@@ -10,7 +10,7 @@ dioxus = "0.4.3"
 dioxus-fullstack = "0.4.3"
 dioxus-router = "0.4.3"
 pulldown-cmark = "0.9.3"
-time = "0.3.31"
+time = { version = "0.3.31", features = ["macros"] }
 
 [features]
 default = []
