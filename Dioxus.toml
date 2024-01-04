@@ -5,7 +5,7 @@ asset_dir = "public"
 default_platform = "web"
 
 [web.resource]
-style = ["/tailwind.css", "/style.css", "/hljs/styles/atom-one-dark.css"]
+style = ["/tailwind.css", "/style.css", "/hljs/styles/atom-one-dark.min.css"]
 script = ["/hljs/highlight.min.js", "/riscvasm.min.js"]
 
 [web.app]
