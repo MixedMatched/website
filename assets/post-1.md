@@ -22,7 +22,7 @@ def rot13(Z10627K1):
             res += chr((ord(char) - offset + 13) % 26 + offset)
         elif 'A' <= char <= 'Z':
             offset = ord('A')
-            res += chr((ord(char) - offset + 13) % 26 + offset)eeeeeeeeeeeeeeeeeeeeee
+            res += chr((ord(char) - offset + 13) % 26 + offset)
         else:
             res += char
     return res

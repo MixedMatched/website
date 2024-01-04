@@ -1,12 +1,40 @@
-mod post;
+mod about;
+mod home;
 mod markdown;
+mod post;
+mod resume;
 
-use crate::post::{Blog, PostList, Post, PostQuery};
+use crate::about::About;
+use crate::home::Home;
+use crate::post::{Blog, Post, PostList, PostQuery};
+use crate::resume::Resume;
 
 use dioxus::prelude::*;
-use dioxus_router::prelude::*;
 use dioxus_fullstack::prelude::*;
+use dioxus_router::prelude::*;
 use post::PostQuerySegments;
+
+#[derive(Routable, Clone)]
+#[rustfmt::skip]
+enum Route {
+    #[layout(NavBar)]
+        #[route("/")]
+        Home {},
+        #[route("/about")]
+        About {},
+        #[route("/resume")]
+        Resume {},
+        #[nest("/blog")]
+            #[layout(Blog)]
+            #[route("/")]
+            PostList {},
+            #[route("/:id")]
+            Post { id: String },
+            #[end_layout]
+        #[end_nest]
+        #[route("/search/?:query_params")]
+        PostQuery { query_params: PostQuerySegments },
+}
 
 fn main() {
     LaunchBuilder::new(App).launch();
@@ -28,49 +56,27 @@ fn App(cx: Scope) -> Element {
     })
 }
 
-#[derive(Routable, Clone)]
-#[rustfmt::skip]
-enum Route {
-    #[layout(NavBar)]
-        #[route("/")]
-        Home {},
-        #[route("/about")]
-        About {},
-        #[route("/contact")]
-        Contact {},
-        #[nest("/blog")]
-            #[layout(Blog)]
-            #[route("/")]
-            PostList {},
-            #[route("/:id")]
-            Post { id: String },
-            #[end_layout]
-        #[end_nest]
-        #[route("/search/?:query_params")]
-        PostQuery { query_params: PostQuerySegments },
-}
-
 #[component]
 fn NavBar(cx: Scope) -> Element {
     cx.render(rsx! {
         div {
             class: "flex justify-end py-4",
-            Link { 
+            Link {
                 class: "text-gray-700 mx-2 dark:text-slate-200",
                 to: Route::Home {},
                 "Home"
             }
-            Link { 
+            Link {
                 class: "text-gray-700 mx-2 dark:text-slate-200",
                 to: Route::About {},
                 "About"
             }
-            Link { 
+            Link {
                 class: "text-gray-700 mx-2 dark:text-slate-200",
-                to: Route::Contact {},
-                "Contact"
+                to: Route::Resume {},
+                "Resume"
             }
-            Link { 
+            Link {
                 class: "text-gray-700 mx-2 dark:text-slate-200",
                 to: Route::PostList {},
                 "Blog"
@@ -79,31 +85,3 @@ fn NavBar(cx: Scope) -> Element {
         Outlet::<Route> {}
     })
 }
-
-#[component]
-fn Home(cx: Scope) -> Element {
-    cx.render(rsx! {
-        div {
-            "Hello, World!"
-        }
-    })
-}
-
-#[component]
-fn About(cx: Scope) -> Element {
-    cx.render(rsx! {
-        div {
-            "About"
-        }
-    })
-}
-
-#[component]
-fn Contact(cx: Scope) -> Element {
-    cx.render(rsx! {
-        div {
-            "Contact"
-        }
-    })
-}
-

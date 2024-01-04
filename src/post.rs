@@ -4,7 +4,7 @@ use dioxus::prelude::*;
 use dioxus_router::prelude::*;
 use time::macros::date;
 
-use crate::{Route, markdown::Markdown};
+use crate::{markdown::Markdown, Route};
 
 #[derive(Clone, Debug)]
 struct PostMetaData {
@@ -130,9 +130,22 @@ const POST_LIST: &[Post] = &[
             category: Some("Trash"),
             series: Some("Test Series"),
             part: Some(2),
-            description: Some("This is the second post in the test series"),
+            description: Some("Floating-point arithmetic instructions with one or two source operands use the R-type format with the OP-FP major opcode. FADD.S and FMUL.S perform single-precision floating-point addition and multiplication respectively, between rs1 and rs2. FSUB.S performs the single-precision floating-point subtraction of rs2 from rs1. FDIV.S performs the single-precision floating-point division of rs1 by rs2. FSQRT.S computes the square root of rs1. In each case, the result is written to rd."),
         },
         content: "blank",
+    },
+    Post {
+        id: "post-5",
+        meta: PostMetaData {
+            title: "Post 5",
+            author: "Author 1",
+            published: date!(2021 - 01 - 05),
+            category: Some("Trash"),
+            series: Some("Test Series"),
+            part: Some(3),
+            description: None,
+        },
+        content: include_str!("../assets/README.md"),
     },
 ];
 
@@ -165,7 +178,7 @@ pub fn PostList(cx: Scope) -> Element {
                     class: "dark:text-white mb-4 bg-gray-300 dark:bg-gray-700 p-4",
                     p {
                         class: "text-xl text-blue-400 dark:text-orange-600",
-                        Link { 
+                        Link {
                             to: Route::Post { id: post.id.to_string() },
                             u {
                                 post.meta.title
@@ -230,9 +243,7 @@ pub fn PostList(cx: Scope) -> Element {
 
 #[component]
 pub fn Post(cx: Scope, id: String) -> Element {
-    let post = POST_LIST
-        .iter()
-        .find(|post| post.id == id);
+    let post = POST_LIST.iter().find(|post| post.id == id);
 
     if let Some(post) = post {
         cx.render(rsx! {
@@ -254,6 +265,33 @@ pub fn Post(cx: Scope, id: String) -> Element {
                 h1 {
                     class: "text-4xl dark:text-white font-bold mb-2",
                     post.meta.title
+                }
+                if let Some(series) = post.meta.series {
+                    rsx! {
+                        p {
+                            class: "dark:text-white mb-2",
+                            "Part"
+                            if let Some(part) = post.meta.part {
+                                rsx! {
+                                    " "
+                                    part.to_string()
+                                }
+                            }
+                            " of "
+                            Link {
+                                class: "text-blue-400 dark:text-orange-600",
+                                to: Route::PostQuery {
+                                    query_params: PostQuerySegments {
+                                        join: true,
+                                        category: None,
+                                        series: Some(series.to_string()),
+                                        author: None,
+                                    },
+                                },
+                                series
+                            }
+                        }
+                    }
                 }
                 p {
                     class: "dark:text-white mb-4",
@@ -317,7 +355,7 @@ pub fn Post(cx: Scope, id: String) -> Element {
                 p {
                     class: "dark:text-white",
                     "The post you are looking for does not exist."
-                    
+
                 }
             }
         })
@@ -373,7 +411,7 @@ pub fn PostQuery(cx: Scope, query_params: PostQuerySegments) -> Element {
             .collect();
     }
 
-    render!{
+    render! {
         div {
             class: "bg-gray-200 dark:bg-gray-800 p-8",
             Link {
@@ -400,7 +438,7 @@ pub fn PostQuery(cx: Scope, query_params: PostQuerySegments) -> Element {
                     class: "dark:text-white mb-4 bg-gray-300 dark:bg-gray-700 p-4",
                     p {
                         class: "text-xl text-blue-400 dark:text-orange-600",
-                        Link { 
+                        Link {
                             to: Route::Post { id: post.id.to_string() },
                             u {
                                 post.meta.title
